@@ -1,0 +1,22 @@
+<ng-container *ngIf="confirmationService.state$ | async as request">
+  <div class="dialog-backdrop" (click)="confirmationService.cancel()">
+    <div class="dialog-card" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <h3 class="dialog-title">{{ request.title }}</h3>
+      <p class="dialog-message">{{ request.message }}</p>
+      <div class="dialog-actions">
+        <button class="btn btn-outline" type="button" (click)="confirmationService.cancel()">
+          {{ request.cancelText || 'Cancelar' }}
+        </button>
+        <button
+          class="btn"
+          [class.btn-danger]="request.danger"
+          [class.btn-primary]="!request.danger"
+          type="button"
+          (click)="confirmationService.confirm()"
+        >
+          {{ request.confirmText || 'Confirmar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>
