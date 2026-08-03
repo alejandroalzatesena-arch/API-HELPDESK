@@ -1,0 +1,58 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">HD</div>
+      <h1 class="auth-title">Iniciar sesión</h1>
+      <p class="auth-subtitle">Accede a tu mesa de ayuda</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="email">Correo electrónico</label>
+        <input
+          id="email"
+          type="email"
+          class="form-control"
+          [class.is-invalid]="submitted && f['email'].invalid"
+          formControlName="email"
+          placeholder="tu@correo.com"
+        />
+        <div class="form-error" *ngIf="submitted && f['email'].errors?.['required']">
+          El correo es obligatorio.
+        </div>
+        <div class="form-error" *ngIf="submitted && f['email'].errors?.['email']">
+          Ingresa un correo válido.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          class="form-control"
+          [class.is-invalid]="submitted && f['password'].invalid"
+          formControlName="password"
+          placeholder="Tu contraseña"
+        />
+        <div class="form-error" *ngIf="submitted && f['password'].errors?.['required']">
+          La contraseña es obligatoria.
+        </div>
+        <div class="form-error" *ngIf="submitted && f['password'].errors?.['minlength']">
+          La contraseña debe tener al menos 6 caracteres.
+        </div>
+      </div>
+
+      <div class="form-error auth-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <button class="btn btn-primary btn-block" type="submit" [disabled]="loading">
+        {{ loading ? 'Iniciando…' : 'Iniciar sesión' }}
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      ¿No tienes cuenta?
+      <a routerLink="/auth/register">Regístrate</a>
+    </p>
+  </div>
+</div>
