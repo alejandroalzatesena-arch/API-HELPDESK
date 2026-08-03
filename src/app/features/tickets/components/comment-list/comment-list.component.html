@@ -1,0 +1,63 @@
+<div class="card comments-card">
+  <h2 class="card-title">Comentarios ({{ comments.length }})</h2>
+
+  <app-loading-spinner *ngIf="loading" message="Cargando comentarios…"></app-loading-spinner>
+
+  <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+  <div class="empty-state small" *ngIf="!loading && comments.length === 0">
+    <p>Sin comentarios aún.</p>
+  </div>
+
+  <ul class="comment-list" *ngIf="!loading && comments.length > 0">
+    <li class="comment" *ngFor="let comment of comments">
+      <div class="comment-header">
+        <span class="comment-author">{{ comment.author?.name ?? comment.authorId }}</span>
+        <span class="comment-role" *ngIf="comment.author">{{ comment.author.role }}</span>
+        <span class="comment-date">{{ comment.createdAt | date: 'medium' }}</span>
+      </div>
+      <p class="comment-body">{{ comment.body }}</p>
+    </li>
+  </ul>
+
+  <form
+    class="comment-form"
+    [formGroup]="commentForm"
+    (ngSubmit)="onSubmit()"
+    *ngIf="canComment"
+    novalidate
+  >
+    <div class="form-group">
+      <label class="form-label" for="comment-body">Agregar comentario</label>
+      <textarea
+        id="comment-body"
+        rows="3"
+        class="form-control"
+        [class.is-invalid]="commentForm.get('body')?.touched && commentForm.get('body')?.invalid"
+        formControlName="body"
+        placeholder="Escribe un comentario…"
+      ></textarea>
+      <div
+        class="form-error"
+        *ngIf="commentForm.get('body')?.touched && commentForm.get('body')?.errors?.['required']"
+      >
+        El comentario es obligatorio.
+      </div>
+      <div
+        class="form-error"
+        *ngIf="commentForm.get('body')?.touched && commentForm.get('body')?.errors?.['minlength']"
+      >
+        El comentario debe tener al menos 2 caracteres.
+      </div>
+    </div>
+    <div class="comment-actions">
+      <button class="btn btn-primary" type="submit" [disabled]="adding">
+        {{ adding ? 'Enviando…' : 'Comentar' }}
+      </button>
+    </div>
+  </form>
+
+  <div class="alert alert-info" *ngIf="!canComment">
+    Este ticket está cerrado, no se pueden agregar comentarios.
+  </div>
+</div>

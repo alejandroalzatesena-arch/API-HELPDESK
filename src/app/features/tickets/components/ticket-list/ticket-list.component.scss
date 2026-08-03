@@ -1,0 +1,38 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.ticket-id {
+  font-weight: 600;
+  color: #6b21a8;
+  white-space: nowrap;
+}
+
+.ticket-link {
+  color: #1f2937;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.ticket-link:hover {
+  color: #6b21a8;
+  text-decoration: underline;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+}
+
+.pagination-info {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
