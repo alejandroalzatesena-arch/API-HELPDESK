@@ -1,0 +1,77 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ pageTitle }}</h1>
+      <p class="page-subtitle">
+        {{ isEdit ? 'Actualiza la información del ticket' : 'Describe el problema que necesitas resolver' }}
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <app-loading-spinner *ngIf="loading" message="Cargando ticket…"></app-loading-spinner>
+
+    <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+    <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()" *ngIf="!loading" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="title">Título</label>
+        <input
+          id="title"
+          type="text"
+          class="form-control"
+          [class.is-invalid]="ticketForm.get('title')?.touched && f['title'].invalid"
+          formControlName="title"
+          placeholder="Resumen corto del problema"
+        />
+        <div class="form-error" *ngIf="ticketForm.get('title')?.touched && f['title'].errors?.['required']">
+          El título es obligatorio.
+        </div>
+        <div class="form-error" *ngIf="ticketForm.get('title')?.touched && f['title'].errors?.['minlength']">
+          El título debe tener al menos 5 caracteres.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="description">Descripción</label>
+        <textarea
+          id="description"
+          rows="5"
+          class="form-control"
+          [class.is-invalid]="ticketForm.get('description')?.touched && f['description'].invalid"
+          formControlName="description"
+          placeholder="Explica el problema con detalle"
+        ></textarea>
+        <div class="form-error" *ngIf="ticketForm.get('description')?.touched && f['description'].errors?.['required']">
+          La descripción es obligatoria.
+        </div>
+        <div class="form-error" *ngIf="ticketForm.get('description')?.touched && f['description'].errors?.['minlength']">
+          La descripción debe tener al menos 10 caracteres.
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="priority">Prioridad</label>
+          <select id="priority" class="form-control" formControlName="priority">
+            <option *ngFor="let priority of priorityOptions" [value]="priority">{{ priority }}</option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="isEdit">
+          <label class="form-label" for="status">Estado</label>
+          <select id="status" class="form-control" formControlName="status">
+            <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-outline" type="button" (click)="cancel()">Cancelar</button>
+        <button class="btn btn-primary" type="submit" [disabled]="saving">
+          {{ saving ? 'Guardando…' : (isEdit ? 'Guardar cambios' : 'Crear ticket') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

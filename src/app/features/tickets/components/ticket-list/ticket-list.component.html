@@ -1,0 +1,78 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Tickets</h1>
+      <p class="page-subtitle" *ngIf="meta">
+        Mostrando {{ tickets.length }} de {{ meta.total }} tickets
+      </p>
+    </div>
+    <button class="btn btn-primary" *ngIf="canCreate" [routerLink]="['/tickets/new']">
+      Nuevo ticket
+    </button>
+  </div>
+
+  <app-ticket-filters (filtersChange)="onFiltersChange($event)"></app-ticket-filters>
+
+  <div class="card">
+    <app-loading-spinner *ngIf="loading" message="Cargando tickets…"></app-loading-spinner>
+
+    <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+    <div class="empty-state" *ngIf="!loading && !error && tickets.length === 0">
+      <p>No hay tickets para mostrar.</p>
+    </div>
+
+    <div class="table-responsive" *ngIf="!loading && tickets.length > 0">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Título</th>
+            <th>Estado</th>
+            <th>Prioridad</th>
+            <th *ngIf="isStaff">Cliente</th>
+            <th *ngIf="isStaff">Asignado a</th>
+            <th>Actualizado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ticket of tickets">
+            <td class="ticket-id">{{ ticket.id }}</td>
+            <td>
+              <a class="ticket-link" [routerLink]="['/tickets', ticket.id]">{{ ticket.title }}</a>
+            </td>
+            <td><app-status-badge type="status" [value]="ticket.status"></app-status-badge></td>
+            <td>
+              <app-status-badge type="priority" [value]="ticket.priority"></app-status-badge>
+            </td>
+            <td *ngIf="isStaff">{{ ticket.createdBy }}</td>
+            <td *ngIf="isStaff">{{ ticket.assignedTo || '—' }}</td>
+            <td>{{ ticket.updatedAt | date: 'short' }}</td>
+            <td>
+              <a class="btn btn-outline btn-sm" [routerLink]="['/tickets', ticket.id]">Ver</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination" *ngIf="meta && meta.totalPages > 1">
+      <button
+        class="btn btn-outline btn-sm"
+        [disabled]="meta.page <= 1"
+        (click)="changePage(-1)"
+      >
+        Anterior
+      </button>
+      <span class="pagination-info">Página {{ meta.page }} de {{ meta.totalPages }}</span>
+      <button
+        class="btn btn-outline btn-sm"
+        [disabled]="meta.page >= meta.totalPages"
+        (click)="changePage(1)"
+      >
+        Siguiente
+      </button>
+    </div>
+  </div>
+</div>
