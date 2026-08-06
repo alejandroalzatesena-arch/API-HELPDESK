@@ -1,0 +1,44 @@
+<div class="page">
+  <div class="welcome-card">
+    <div class="welcome-text">
+      <h1 class="page-title">Hola, {{ user?.name ?? 'bienvenido' }}</h1>
+      <p class="page-subtitle">
+        Rol: <strong>{{ roleLabel }}</strong>
+      </p>
+    </div>
+    <div class="welcome-icon">{{ user?.name?.charAt(0) ?? '?' }}</div>
+  </div>
+
+  <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-value">{{ loading ? '…' : totalTickets }}</span>
+      <span class="stat-label">Tickets</span>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <h2 class="section-title">Acciones rápidas</h2>
+    <div class="actions-grid">
+      <a class="action-card" [routerLink]="['/tickets']">
+        <span class="action-title">Ver tickets</span>
+        <span class="action-desc">Consulta y gestiona los tickets</span>
+      </a>
+
+      <a
+        class="action-card"
+        [routerLink]="['/tickets/new']"
+        *ngIf="user?.role === 'client' || user?.role === 'admin'"
+      >
+        <span class="action-title">Crear ticket</span>
+        <span class="action-desc">Registra una nueva incidencia</span>
+      </a>
+
+      <a class="action-card" [routerLink]="['/users']" *ngIf="user?.role === 'admin'">
+        <span class="action-title">Usuarios</span>
+        <span class="action-desc">Administra los roles del sistema</span>
+      </a>
+    </div>
+  </div>
+</div>
