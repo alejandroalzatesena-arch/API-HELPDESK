@@ -1,0 +1,30 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.user-id {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.role-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.role-hint {
+  font-size: 0.78rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
