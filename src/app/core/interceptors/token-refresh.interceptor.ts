@@ -47,7 +47,11 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
 
     if (this.isRefreshing) {
       return this.waitForNewToken().pipe(
-        switchMap((token) => next.handle(this.withToken(request, token)))
+        switchMap((token) => next.handle(this.withToken(request, token))),
+        catchError(() => {
+          this.authService.clearSession();
+          return throwError(() => new Error('No se pudo renovar la sesión.'));
+        })
       );
     }
 
