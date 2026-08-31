@@ -1,5 +1,7 @@
 # HelpDesk — Consumo de API
 
+> **Versión 1.0.0** — Entrega final: 31 de agosto de 2026
+
 Aplicación web de mesa de ayuda (help desk) desarrollada con **Angular 17** que consume la API REST de `sla-api.areasoftccyt.com`. Incluye autenticación con tokens (access + refresh), gestión de tickets, comentarios, usuarios y un dashboard según el rol.
 
 ## Tecnologías y características
