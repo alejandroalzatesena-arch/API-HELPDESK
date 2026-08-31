@@ -1,0 +1,93 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <a class="back-link" [routerLink]="['/tickets']">← Volver a tickets</a>
+      <h1 class="page-title">{{ ticket?.title ?? 'Detalle del ticket' }}</h1>
+    </div>
+    <div class="header-actions" *ngIf="ticket && isAdmin">
+      <button class="btn btn-outline" [routerLink]="['/tickets', ticket.id, 'edit']">Editar</button>
+      <button class="btn btn-danger" (click)="deleteTicket()" [disabled]="saving">Eliminar</button>
+    </div>
+  </div>
+
+  <app-loading-spinner *ngIf="loading" message="Cargando ticket…"></app-loading-spinner>
+
+  <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+  <ng-container *ngIf="!loading && ticket">
+    <div class="card ticket-main">
+      <div class="ticket-badges">
+        <app-status-badge type="status" [value]="ticket.status"></app-status-badge>
+        <app-status-badge type="priority" [value]="ticket.priority"></app-status-badge>
+      </div>
+
+      <p class="ticket-description">{{ ticket.description }}</p>
+
+      <div class="ticket-meta">
+        <div class="meta-item">
+          <span class="meta-label">Creado por</span>
+          <span class="meta-value">{{ ticket.createdBy }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Asignado a</span>
+          <span class="meta-value">{{ ticket.assignedTo || 'Sin asignar' }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Creado</span>
+          <span class="meta-value">{{ ticket.createdAt | date: 'medium' }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Actualizado</span>
+          <span class="meta-value">{{ ticket.updatedAt | date: 'medium' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" *ngIf="canUpdate">
+      <h2 class="card-title">Actualizar ticket</h2>
+      <form [formGroup]="updateForm" (ngSubmit)="updateTicket()" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="detail-status">Estado</label>
+            <select id="detail-status" class="form-control" formControlName="status">
+              <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="detail-priority">Prioridad</label>
+            <select id="detail-priority" class="form-control" formControlName="priority">
+              <option *ngFor="let priority of priorityOptions" [value]="priority">{{ priority }}</option>
+            </select>
+          </div>
+          <div class="form-group form-actions-align">
+            <button class="btn btn-primary" type="submit" [disabled]="saving">
+              {{ saving ? 'Guardando…' : 'Guardar cambios' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="card" *ngIf="isAdmin">
+      <h2 class="card-title">Asignar a agente</h2>
+      <form [formGroup]="assignForm" (ngSubmit)="assignTicket()" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="assign-agent">Agente</label>
+            <select id="assign-agent" class="form-control" formControlName="agentId">
+              <option value="" disabled>Selecciona un agente</option>
+              <option *ngFor="let agent of agents" [value]="agent.id">{{ agent.name }}</option>
+            </select>
+          </div>
+          <div class="form-group form-actions-align">
+            <button class="btn btn-primary" type="submit" [disabled]="saving || !assignForm.valid">
+              {{ saving ? 'Asignando…' : 'Asignar' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <app-comment-list [ticketId]="ticket.id" [ticketStatus]="ticket.status"></app-comment-list>
+  </ng-container>
+</div>

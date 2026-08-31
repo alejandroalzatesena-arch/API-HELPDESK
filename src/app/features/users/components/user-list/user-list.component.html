@@ -1,0 +1,51 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Usuarios</h1>
+      <p class="page-subtitle">Gestiona los roles de los usuarios del sistema</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <app-loading-spinner *ngIf="loading" message="Cargando usuarios…"></app-loading-spinner>
+
+    <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+    <div class="table-responsive" *ngIf="!loading && users.length > 0">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Creado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; let i = index">
+            <td>
+              <div class="user-name">{{ user.name }}</div>
+              <div class="user-id">{{ user.id }}</div>
+            </td>
+            <td>{{ user.email }}</td>
+            <td>
+              <div class="role-cell">
+                <select
+                  class="form-control form-control-sm"
+                  [formGroup]="getUserForm(i)"
+                  formControlName="role"
+                  [disabled]="currentUser?.id === user.id || saving"
+                  (change)="onRoleChange(i)"
+                >
+                  <option *ngFor="let role of userRoles" [value]="role">{{ roleLabels[role] }}</option>
+                </select>
+                <span class="role-hint" *ngIf="currentUser?.id === user.id">(tú)</span>
+              </div>
+            </td>
+            <td>{{ user.createdAt | date: 'medium' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

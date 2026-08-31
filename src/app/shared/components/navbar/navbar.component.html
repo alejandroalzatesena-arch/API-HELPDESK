@@ -1,0 +1,32 @@
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" [routerLink]="user ? ['/dashboard'] : ['/auth/login']">
+      <span class="brand-icon">HD</span>
+      <span class="brand-name">HelpDesk</span>
+    </a>
+
+    <ul class="nav-links" *ngIf="user">
+      <li>
+        <a [routerLink]="['/dashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          Dashboard
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/tickets']" routerLinkActive="active">Tickets</a>
+      </li>
+      <li *ngIf="user.role === 'admin'">
+        <a [routerLink]="['/users']" routerLinkActive="active">Usuarios</a>
+      </li>
+    </ul>
+
+    <div class="nav-user" *ngIf="user">
+      <div class="user-info">
+        <span class="user-name">{{ user.name }}</span>
+        <span class="user-role">{{ roleLabel }}</span>
+      </div>
+      <button class="btn btn-outline-light btn-sm" type="button" (click)="logout()" [disabled]="loggingOut">
+        {{ loggingOut ? 'Cerrando…' : 'Salir' }}
+      </button>
+    </div>
+  </div>
+</nav>

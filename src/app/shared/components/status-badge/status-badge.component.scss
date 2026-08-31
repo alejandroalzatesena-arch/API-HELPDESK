@@ -1,0 +1,49 @@
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.badge-open {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.badge-in_progress {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-resolved {
+  background: #ede9fe;
+  color: #6b21a8;
+}
+
+.badge-closed {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+.badge-low {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+.badge-medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-high {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.badge-urgent {
+  background: #fee2e2;
+  color: #b91c1c;
+}

@@ -1,0 +1,21 @@
+.filters-card {
+  margin-bottom: 16px;
+}
+
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.filters-group {
+  flex: 1;
+  min-width: 180px;
+  margin-bottom: 0;
+}
+
+.filters-actions {
+  margin-bottom: 0;
+  padding-bottom: 1px;
+}
